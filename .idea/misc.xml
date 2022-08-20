@@ -4,11 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/background_dialog.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/bg_multi_image_selected.xml" value="0.2175" />
+        <entry key="app/src/main/res/drawable/bg_multi_image_unselected.xml" value="0.2175" />
+        <entry key="app/src/main/res/drawable/ic_zoom_out_24dp.xml" value="0.2175" />
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_gallery.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_image_pick.xml" value="0.10233029381965553" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/base_appbar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/dialog_simple.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/item_gallery_media.xml" value="0.10233029381965553" />
         <entry key="app/src/main/res/layout/layout_progressbar.xml" value="0.1" />
         <entry key="app/src/main/res/xml/file_path.xml" value="0.37604166666666666" />
       </map>

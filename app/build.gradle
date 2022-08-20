@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
     id 'kotlin-parcelize'
 }
 
@@ -75,7 +75,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 
-    def hiltCoreVersion = '2.40.1'
+    def hiltCoreVersion = '2.41'
     def hiltVersion = '1.0.0'
     //hilt
     implementation "com.google.dagger:hilt-android:$hiltCoreVersion"
@@ -102,4 +102,7 @@ dependencies {
 
     /* image crop */
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 }

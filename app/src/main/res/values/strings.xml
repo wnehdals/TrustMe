@@ -8,4 +8,5 @@
     <string name="start_capture">Start Capture</string>
     <string name="stop_capture">Stop Capture</string>
     <string name="permissions_not_granted_message">카메라,저장소 권한 요청이\n거절되었습니다.</string>
+    <string name="permissions_storage_not_granted_message">저장소 권한 요청이\n거절되었습니다.</string>
 </resources>

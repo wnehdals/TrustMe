@@ -21,4 +21,6 @@
     <color name="blue_background_color">#C5DCFA</color>
     <color name="blue_prim_text_color">#0A3977</color>
     <color name="blue_sub_text_color">#5096F1</color>
+    <color name="color_8a000000">#8a000000</color>
+    <color name="color_defafafa">#defafafa</color>
 </resources>
