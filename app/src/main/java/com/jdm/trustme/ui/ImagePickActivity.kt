@@ -1,6 +1,7 @@
 package com.jdm.trustme.ui
 
 import android.content.ContentUris
+import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -10,7 +11,10 @@ import android.provider.MediaStore
 import android.util.Log
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseActivity
+import com.jdm.trustme.const.GALLERY
+import com.jdm.trustme.const.PICTURE_URI
 import com.jdm.trustme.databinding.ActivityImagePickBinding
+import com.jdm.trustme.model.entity.Gallery
 import com.jdm.trustme.model.media.Album
 import com.jdm.trustme.model.media.Media
 import com.jdm.trustme.util.GalleryUtil
@@ -22,7 +26,7 @@ import java.io.File
 class ImagePickActivity : BaseActivity<ActivityImagePickBinding>() {
     override val layoutId: Int
         get() = R.layout.activity_image_pick
-    private val imagePickAdapter by lazy { ImagePickAdapter(this) }
+    private val imagePickAdapter by lazy { ImagePickAdapter(this, this::goToCropOptionActivity) }
     override fun subscribe() {
     }
 
@@ -72,15 +76,10 @@ class ImagePickActivity : BaseActivity<ActivityImagePickBinding>() {
                 
             })
     }
-    private fun Cursor.getMediaUri(): Uri =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val id = getLong(getColumnIndexOrThrow(MediaStore.MediaColumns._ID))
-
-            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            ContentUris.withAppendedId(contentUri, id)
-        } else {
-            val mediaPath = getString(getColumnIndexOrThrow(MediaStore.MediaColumns.DATA))
-            Uri.fromFile(File(mediaPath))
-        }
+    private fun goToCropOptionActivity(item: Gallery) {
+        val intent = Intent(this, CropOptionActivity::class.java)
+        intent.putExtra(PICTURE_URI, item.uri)
+        startActivity(intent)
+    }
 
 }

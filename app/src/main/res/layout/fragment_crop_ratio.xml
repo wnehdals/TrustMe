@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.CropRatioActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cropRatioTopCl"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/color_ff252525">
+            <ImageView
+                android:id="@+id/cropRatioBackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/ic_left_arrow"
+                android:paddingStart="16dp"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/cropRatioCompleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:text="@string/str_complete"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingEnd="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.theartofdev.edmodo.cropper.CropImageView
+            android:id="@+id/cropRatioIv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/cropRatioTopCl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/cropRatioBottomCl"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cropRatioBottomCl"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/color_ff252525">
+            <LinearLayout
+                android:id="@+id/cropRatioOneToOneLl"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cropRatioFourToThreeLl"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rectangle_one_to_one" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/str_one_to_one" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cropRatioFourToThreeLl"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toEndOf="@+id/cropRatioOneToOneLl"
+                app:layout_constraintEnd_toStartOf="@+id/cropRatioThreeToFourLl"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rectangle_four_to_three" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/str_four_to_three" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cropRatioThreeToFourLl"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintStart_toEndOf="@+id/cropRatioFourToThreeLl"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_rectangle_three_to_four" />
+                <TextView
+                    android:id="@+id/cropRatioThreeToFourTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="@string/str_three_to_four" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -70,6 +70,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>() {
         val outputOptions = ImageCapture.OutputFileOptions
             .Builder(contentResolver, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
             .build()
+
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val msg = "photo capture succedd: ${outputFileResults.savedUri}"
@@ -213,10 +214,10 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>() {
     }
 
     companion object {
-        private const val TAG = "CameraActivity"
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm"
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS =
+        const val TAG = "CameraActivity"
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm"
+        const val REQUEST_CODE_PERMISSIONS = 10
+        val REQUIRED_PERMISSIONS =
             mutableListOf (
                 CAMERA,
                 RECORD_AUDIO

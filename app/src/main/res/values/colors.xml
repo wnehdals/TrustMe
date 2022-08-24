@@ -23,4 +23,7 @@
     <color name="blue_sub_text_color">#5096F1</color>
     <color name="color_8a000000">#8a000000</color>
     <color name="color_defafafa">#defafafa</color>
+    <color name="color_33252525">#33252525</color>
+    <color name="color_ffffff">#FFFFFF</color>
+    <color name="color_ff252525">#FF252525</color>
 </resources>

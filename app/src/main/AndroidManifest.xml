@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TrustMe">
         <activity
+            android:name=".ui.CropOptionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.TrustMe.NoActionBar" />
+        <activity
             android:name=".ui.ImagePickActivity"
             android:exported="false" />
         <activity

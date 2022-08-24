@@ -9,4 +9,12 @@
     <string name="stop_capture">Stop Capture</string>
     <string name="permissions_not_granted_message">카메라,저장소 권한 요청이\n거절되었습니다.</string>
     <string name="permissions_storage_not_granted_message">저장소 권한 요청이\n거절되었습니다.</string>
+    <string name="str_crop">자르기</string>
+    <string name="str_rotate">회전</string>
+    <string name="str_complete">완료</string>
+    <string name="str_one_to_one">1:1</string>
+    <string name="str_four_to_three">4:3</string>
+    <string name="str_three_to_four">3:4</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -8,5 +8,6 @@ data class Gallery(
     val size: Long,
     val type: String,
     val uri: Uri,
-    val date: Long
+    val date: Long,
+    var selectedNum: Int = 0
 )

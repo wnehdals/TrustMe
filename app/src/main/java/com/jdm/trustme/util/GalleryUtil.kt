@@ -1,17 +1,26 @@
 package com.jdm.trustme.util
 
 import android.content.ContentUris
+import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.os.Environment.DIRECTORY_PICTURES
 import android.provider.MediaStore
+import android.util.Log
 import com.jdm.trustme.model.entity.Gallery
 import com.jdm.trustme.model.media.Album
 import com.jdm.trustme.model.media.Media
+import com.jdm.trustme.ui.CameraActivity
 import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.core.Single
 import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 internal class GalleryUtil {
     companion object {
@@ -22,16 +31,19 @@ internal class GalleryUtil {
 
         private lateinit var albumName: String
 
-        internal fun getMedia(context: Context, mediaType: MediaType): Single<MutableList<Gallery>> {
+        internal fun getMedia(
+            context: Context,
+            mediaType: MediaType
+        ): Single<MutableList<Gallery>> {
             return Single.create { emitter ->
                 try {
 
                     val galleryList = mutableListOf<Gallery>()
                     val collecton = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
-                        } else {
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                        }
+                    } else {
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    }
 
                     val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
@@ -48,18 +60,27 @@ internal class GalleryUtil {
                     } else {
                         null
                     }
-                    val query = context.contentResolver.query(collecton, projection, selection, null, sortOrder)
+                    val query = context.contentResolver.query(
+                        collecton,
+                        projection,
+                        selection,
+                        null,
+                        sortOrder
+                    )
                     query?.use { cursor ->
                         val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                        val displayNameColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                        val displayNameColumn =
+                            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
                         val uriColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
                         val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-                        val dateAddedColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
-                        val mineTypeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
+                        val dateAddedColumn =
+                            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
+                        val mineTypeColumn =
+                            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
                         while (cursor.moveToNext()) {
                             val id = cursor.getLong(idColumn)
                             val name = cursor.getString(displayNameColumn)
-                            val uri = getMediaUri(id,cursor.getString(uriColumn))
+                            val uri = getMediaUri(id, cursor.getString(uriColumn))
                             val size = cursor.getLong(sizeColumn)
                             val date = cursor.getLong(dateAddedColumn)
                             val type = cursor.getString(mineTypeColumn)
@@ -80,7 +101,43 @@ internal class GalleryUtil {
             }
         }
 
+        fun saveBitmap(context: Context, bitmap: Bitmap) {
+            val name = SimpleDateFormat(CameraActivity.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
 
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, "${name}.jpg")
+                put(MediaStore.MediaColumns.MIME_TYPE, "imgae/jpeg")
+                put(MediaStore.Images.Media.WIDTH, bitmap.width)
+                put(MediaStore.Images.Media.HEIGHT, bitmap.height)
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/TrustMe-Image")
+                val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                val item = context.contentResolver.insert(collection, contentValues)!!
+                try {
+                    val fos = context.contentResolver.openOutputStream(item)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    Objects.requireNonNull(fos)
+                    Log.e("jdm_tag","save")
+                } catch (e: Exception) {
+                    return
+                }
+            } else {
+                val filePath =
+                    "${Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES)}/TrustMe-Image"
+                contentValues.put(MediaStore.Images.Media.DATA, filePath)
+                val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                val item = context.contentResolver.insert(collection, contentValues)!!
+                try {
+                    val fos = context.contentResolver.openOutputStream(item)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                    Objects.requireNonNull(fos)
+                    Log.e("jdm_tag","save")
+                } catch (e: Exception) {
+                    return
+                }
+            }
+        }
 
 
         private fun getMediaUri(id: Long, str: String): Uri =

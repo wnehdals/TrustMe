@@ -3,17 +3,27 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10764944275582573" />
         <entry key="app/src/main/res/drawable-v24/background_dialog.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/bg_multi_image_selected.xml" value="0.2175" />
         <entry key="app/src/main/res/drawable/bg_multi_image_unselected.xml" value="0.2175" />
         <entry key="app/src/main/res/drawable/ic_zoom_out_24dp.xml" value="0.2175" />
+        <entry key="app/src/main/res/drawable/selector_number.xml" value="0.332" />
+        <entry key="app/src/main/res/drawable/selector_number_color.xml" value="0.2175" />
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_crop_option.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_crop_ratio.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_gallery.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_image_crop.xml" value="0.1828774062816616" />
         <entry key="app/src/main/res/layout/activity_image_pick.xml" value="0.10233029381965553" />
+        <entry key="app/src/main/res/layout/activity_img_crop_ratio.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/base_appbar.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/crop_image_view.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/layout/dialog_simple.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/item_gallery_media.xml" value="0.10233029381965553" />
+        <entry key="app/src/main/res/layout/fragment_crop_ratio.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.1897644927536232" />
+        <entry key="app/src/main/res/layout/item_gallery_media.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_progressbar.xml" value="0.1" />
         <entry key="app/src/main/res/xml/file_path.xml" value="0.37604166666666666" />
       </map>
