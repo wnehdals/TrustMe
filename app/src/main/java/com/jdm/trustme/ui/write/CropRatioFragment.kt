@@ -1,4 +1,4 @@
-package com.jdm.trustme.ui
+package com.jdm.trustme.ui.write
 
 import android.content.Context
 import androidx.activity.OnBackPressedCallback
@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentCropRatioBinding
-import com.jdm.trustme.ui.write.*
 
 class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
     override val layoutId: Int
@@ -18,7 +17,7 @@ class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
         backButtonCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 (requireActivity() as WriteActivity).backPressedFragment(
-                    CropRatioFragment.TAG,
+                    TAG,
                     EditImageFragment.TAG
                 )
             }
@@ -36,7 +35,7 @@ class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
         with(binding) {
             cropRatioBackButton.setOnClickListener {
                 (requireActivity() as WriteActivity).backPressedFragment(
-                    CropRatioFragment.TAG,
+                    TAG,
                     EditImageFragment.TAG
                 )
             }
@@ -52,7 +51,7 @@ class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
             cropRatioCompleteButton.setOnClickListener {
                 val img = cropRatioIv.croppedImage
                 viewModel.editSelectedGallery()
-                (requireActivity() as WriteActivity).backPressedFragment(CropRatioFragment.TAG, "")
+                (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
                 (requireActivity() as WriteActivity).backPressedFragment(EditImageFragment.TAG, "")
                 (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
 
@@ -65,13 +64,8 @@ class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        (requireActivity() as CropOptionActivity).refreshEditImageFragment()
 
     }
-    fun popBackFragment() {
-        parentFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
-    }
-
     companion object {
         @JvmStatic
         fun newInstance() = CropRatioFragment()

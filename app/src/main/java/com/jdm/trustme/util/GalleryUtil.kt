@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.model.entity.Gallery
-import com.jdm.trustme.ui.CameraActivity
+import com.jdm.trustme.ui.write.CameraFragment
 import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.core.Single
 import java.io.File
@@ -104,7 +104,7 @@ internal class GalleryUtil {
 
         fun saveBitmap(context: Context, bitmap: Bitmap): Single<Boolean> {
             return Single.create {
-                val name = SimpleDateFormat(CameraActivity.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
+                val name = SimpleDateFormat(CameraFragment.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
 
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, "${name}.jpg")

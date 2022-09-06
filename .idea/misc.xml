@@ -26,6 +26,7 @@
         <entry key="app/src/main/res/layout/crop_image_view.xml" value="0.10190217391304347" />
         <entry key="app/src/main/res/layout/dialog_edit_text.xml" value="0.22" />
         <entry key="app/src/main/res/layout/dialog_simple.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_crop_ratio.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_edit_image.xml" value="0.1897644927536232" />
         <entry key="app/src/main/res/layout/fragment_image_pick.xml" value="0.1" />

@@ -62,7 +62,7 @@ class WriteFragment : BaseFragment<FragmentWriteBinding>() {
             }
             writeCameraButton.setOnClickListener {
                 if ((requireActivity() as WriteActivity).isCameraPermissionGranted()) {
-
+                    (requireActivity() as WriteActivity).addFragment(CameraFragment.TAG)
                 } else {
                     (requireActivity() as WriteActivity).requestCameraPermission()
                 }

@@ -17,7 +17,6 @@ import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseDialog
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentEditImageBinding
-import com.jdm.trustme.ui.CropRatioFragment
 import com.jdm.trustme.util.GalleryUtil
 import dagger.hilt.android.AndroidEntryPoint
 import gun0912.tedimagepicker.builder.type.MediaType

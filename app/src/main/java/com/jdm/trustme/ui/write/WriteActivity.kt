@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseActivity
 import com.jdm.trustme.databinding.ActivityWriteBinding
-import com.jdm.trustme.ui.CropRatioFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,7 +51,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>() {
             Toast.makeText(this, R.string.permissions_not_granted_message, Toast.LENGTH_SHORT).show()
             finish()
         } else {
-            //addFragment()
+            addFragment(CameraFragment.TAG)
         }
     }
     private val requestStoragePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -117,6 +116,7 @@ class WriteActivity : BaseActivity<ActivityWriteBinding>() {
             }
             EditImageFragment.TAG -> supportFragmentManager.beginTransaction().add(R.id.writeFragmentContainer, EditImageFragment.newInstance(), EditImageFragment.TAG).commitAllowingStateLoss()
             CropRatioFragment.TAG -> supportFragmentManager.beginTransaction().add(R.id.writeFragmentContainer, CropRatioFragment.newInstance(), CropRatioFragment.TAG).commitAllowingStateLoss()
+            CameraFragment.TAG -> supportFragmentManager.beginTransaction().add(R.id.writeFragmentContainer, CameraFragment.newInstance(), CameraFragment.TAG).commitAllowingStateLoss()
             else -> return
         }
     }
