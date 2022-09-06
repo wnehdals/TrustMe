@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface StoreDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStore(store_: Store)
+    suspend fun insertStore(store_: Store)
 
     @Query("SELECT * FROM STORE")
     fun selectAllStore(): Flow<List<Store>>

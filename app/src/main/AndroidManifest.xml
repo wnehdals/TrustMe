@@ -20,7 +20,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TrustMe">
+        android:theme="@style/Theme.TrustMe.NoActionBar">
+        <activity
+            android:name=".ui.write.WriteActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.CropOptionActivity"
             android:exported="false"

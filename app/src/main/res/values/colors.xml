@@ -26,4 +26,9 @@
     <color name="color_33252525">#33252525</color>
     <color name="color_ffffff">#FFFFFF</color>
     <color name="color_ff252525">#FF252525</color>
+    <color name="color_6728ff">#ff6728ff</color>
+    <color name="color_8768ff">#ff8768ff</color>
+    <color name="color_f1f3f5">#fff1f3f5</color>
+    <color name="color_acb5bd">#ffacb5bd</color>
+    <color name="color_ccd4d8">#ffccd4d8</color>
 </resources>

@@ -3,22 +3,22 @@ package com.jdm.trustme.util
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Environment.DIRECTORY_PICTURES
 import android.provider.MediaStore
 import android.util.Log
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.model.entity.Gallery
-import com.jdm.trustme.model.media.Album
-import com.jdm.trustme.model.media.Media
 import com.jdm.trustme.ui.CameraActivity
 import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.core.Single
 import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -89,6 +89,7 @@ internal class GalleryUtil {
                     }
                     query?.close()
                     if (!galleryList.isEmpty()) {
+
                         emitter.onSuccess(galleryList)
                     } else {
                         val emptyList = mutableListOf<Gallery>()
@@ -101,44 +102,57 @@ internal class GalleryUtil {
             }
         }
 
-        fun saveBitmap(context: Context, bitmap: Bitmap) {
-            val name = SimpleDateFormat(CameraActivity.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
+        fun saveBitmap(context: Context, bitmap: Bitmap): Single<Boolean> {
+            return Single.create {
+                val name = SimpleDateFormat(CameraActivity.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
 
-            val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, "${name}.jpg")
-                put(MediaStore.MediaColumns.MIME_TYPE, "imgae/jpeg")
-                put(MediaStore.Images.Media.WIDTH, bitmap.width)
-                put(MediaStore.Images.Media.HEIGHT, bitmap.height)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/TrustMe-Image")
-                val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
-                val item = context.contentResolver.insert(collection, contentValues)!!
-                try {
-                    val fos = context.contentResolver.openOutputStream(item)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                    Objects.requireNonNull(fos)
-                    Log.e("jdm_tag","save")
-                } catch (e: Exception) {
-                    return
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, "${name}.jpg")
+                    put(MediaStore.MediaColumns.MIME_TYPE, "imgae/jpeg")
+                    put(MediaStore.Images.Media.WIDTH, bitmap.width)
+                    put(MediaStore.Images.Media.HEIGHT, bitmap.height)
                 }
-            } else {
-                val filePath =
-                    "${Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES)}/TrustMe-Image"
-                contentValues.put(MediaStore.Images.Media.DATA, filePath)
-                val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                val item = context.contentResolver.insert(collection, contentValues)!!
-                try {
-                    val fos = context.contentResolver.openOutputStream(item)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                    Objects.requireNonNull(fos)
-                    Log.e("jdm_tag","save")
-                } catch (e: Exception) {
-                    return
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/TrustMe-Image")
+                    val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                    val item = context.contentResolver.insert(collection, contentValues)!!
+                    try {
+                        val fos = context.contentResolver.openOutputStream(item)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                        Objects.requireNonNull(fos)
+                        Log.e("jdm_tag","save")
+                        it.onSuccess(true)
+                    } catch (e: Exception) {
+                        it.onError(e)
+                    }
+                } else {
+                    val filePath =
+                        "${Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES)}/TrustMe-Image"
+                    contentValues.put(MediaStore.Images.Media.DATA, filePath)
+                    val collection = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    val item = context.contentResolver.insert(collection, contentValues)!!
+                    try {
+                        val fos = context.contentResolver.openOutputStream(item)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                        Objects.requireNonNull(fos)
+                        it.onSuccess(true)
+                    } catch (e: Exception) {
+                        it.onError(e)
+                    }
                 }
             }
+
         }
+        fun uriToBitmap(context: Context, gallery: Gallery) {
+            Glide.with(context).asBitmap().load(gallery.uri).into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    gallery.bitmap = resource
+                }
 
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
+        }
 
         private fun getMediaUri(id: Long, str: String): Uri =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

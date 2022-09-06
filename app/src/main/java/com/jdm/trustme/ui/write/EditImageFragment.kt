@@ -1,4 +1,4 @@
-package com.jdm.trustme.ui
+package com.jdm.trustme.ui.write
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -6,35 +6,35 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
+import com.jdm.trustme.base.BaseDialog
 import com.jdm.trustme.base.BaseFragment
-import com.jdm.trustme.const.PICTURE_URI
 import com.jdm.trustme.databinding.FragmentEditImageBinding
+import com.jdm.trustme.ui.CropRatioFragment
 import com.jdm.trustme.util.GalleryUtil
-import com.jdm.trustme.util.RotateTransformation
 import dagger.hilt.android.AndroidEntryPoint
+import gun0912.tedimagepicker.builder.type.MediaType
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 @AndroidEntryPoint
 class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_edit_image
-    val viewModel: CropOptionViewModel by activityViewModels()
-    val rotateTransformation = RotateTransformation(0f)
+    val viewModel: WriteViewModel by activityViewModels()
     private var angle = 0f
     override fun onAttach(context: Context) {
         super.onAttach(context)
         backButtonCallBack = object : OnBackPressedCallback(true) {
-
             override fun handleOnBackPressed() {
-                requireActivity().finish()
+                (requireActivity() as WriteActivity).backPressedFragment(TAG, ImagePickFragment.TAG)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, backButtonCallBack)
@@ -45,22 +45,46 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
     }
     override fun initView() {
         angle = 0f
-        viewModel.getBitmap()?.let { binding.cropOptionImg.setImageBitmap(it) }
+        viewModel.bitmap?.let { binding.cropOptionImg.setImageBitmap(it) }
     }
     fun reFresh() {
         angle = 0f
-        Log.e("jdm_tag", "onstart")
-        viewModel.getBitmap()?.let { binding.cropOptionImg.setImageBitmap(it) }
+        viewModel.bitmap?.let { binding.cropOptionImg.setImageBitmap(it) }
     }
 
 
     override fun initEvent() {
         with(binding) {
             cropOptionBackButton.setOnClickListener {
-                requireActivity().finish()
+                BaseDialog.makeSimpleDialog(
+                    context = requireContext(),
+                    message = getString(R.string.str_check_img_edit_message),
+                    positiveButtonText = getString(R.string.str_left),
+                    negativeButtonText = getString(R.string.str_cancel),
+                    positiveButtonOnClickListener = { dialog, _ ->
+                        dialog.dismiss()
+                        (requireActivity() as WriteActivity).backPressedFragment(TAG, ImagePickFragment.TAG)
+                    },
+                    negativeButtonOnClickListener = { dialog, _ ->
+                        dialog.dismiss()
+                    },
+                    cancelable = false
+                )
+                //(requireActivity() as WriteActivity).backPressedFragment(EditImageFragment.TAG, ImagePickFragment.TAG)
             }
             cropOptionCompleteButton.setOnClickListener {
-                GalleryUtil.saveBitmap(requireContext(), viewModel.getBitmap()!!)
+                viewModel.editSelectedGallery()
+                GalleryUtil.saveBitmap(requireContext(), viewModel.bitmap!!)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        if (it) {
+                            (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
+                            (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
+                        }
+                    }, {
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    })
             }
             cropOptionButton.setOnClickListener {
                 goToCropRatioFragment()
@@ -75,11 +99,22 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
             rotateOptionTv.setOnClickListener {
                 rotateImg()
             }
+            cropOptionBackButton.setOnClickListener {
+                (requireActivity() as WriteActivity).backPressedFragment(TAG, ImagePickFragment.TAG)
+            }
         }
+    }
+    fun getMedia() {
+        GalleryUtil.getMedia(requireContext(), MediaType.IMAGE)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+               Log.e("jdm_tag",it.size.toString())
+            },{})
     }
     fun rotateImg() {
         angle+=90f
-        viewModel.getBitmap()?.let {
+        viewModel.bitmap?.let {
             val rotateImg = viewModel.rotateBitmap(it, angle)
             binding.cropOptionImg.setImageBitmap(rotateImg)
         }
@@ -88,8 +123,8 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
         if (options == null) {
             Glide.with(this).asBitmap().load(uri).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    viewModel.setBitmap(resource)
-                    viewModel.getBitmap()?.let {
+                    viewModel.bitmap = resource
+                    viewModel.bitmap?.let {
                         binding.cropOptionImg.setImageBitmap(it)
                     }
 
@@ -101,8 +136,8 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
         } else {
             Glide.with(this).asBitmap().apply(options).load(uri).into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    viewModel.setBitmap(resource)
-                    viewModel.getBitmap()?.let {
+                    viewModel.bitmap = resource
+                    viewModel.bitmap?.let {
                         binding.cropOptionImg.setImageBitmap(it)
                     }
                 }
@@ -115,7 +150,7 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
     override fun subscribe() {
     }
     private fun goToCropRatioFragment() {
-        (requireActivity() as CropOptionActivity).addCropRatioFragment()
+        (requireActivity() as WriteActivity).addFragment(CropRatioFragment.TAG)
     }
 
     companion object {

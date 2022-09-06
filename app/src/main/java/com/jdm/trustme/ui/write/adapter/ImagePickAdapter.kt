@@ -1,4 +1,4 @@
-package com.jdm.trustme.ui
+package com.jdm.trustme.ui.write.adapter
 
 import android.content.Context
 import android.util.Log
@@ -10,13 +10,15 @@ import com.bumptech.glide.Glide
 import com.jdm.trustme.R
 import com.jdm.trustme.databinding.ItemGalleryMediaBinding
 import com.jdm.trustme.model.entity.Gallery
-import com.jdm.trustme.model.media.Media
-import java.util.*
+import com.jdm.trustme.ui.write.WriteViewModel
 
-class ImagePickAdapter(private val context: Context, private val onClickImageView: (Gallery) -> Unit) :
+class ImagePickAdapter(
+    private val context: Context,
+    private val viewModel: WriteViewModel,
+    private val onClickImageView: (Gallery, Int) -> Unit = { selectedItem, position -> }
+) :
     RecyclerView.Adapter<ImagePickAdapter.ViewHolder>() {
     private val mediaUris: MutableList<Gallery> = mutableListOf()
-    private val selectedList = LinkedList<Gallery>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemGalleryMediaBinding.inflate(
@@ -44,6 +46,20 @@ class ImagePickAdapter(private val context: Context, private val onClickImageVie
         notifyDataSetChanged()
     }
 
+    fun addData(gallery: Gallery) {
+        viewModel.selectedGallery.add(gallery)
+        mediaUris.add(gallery)
+        mediaUris[mediaUris.size - 1].selectedNum = viewModel.selectedGallery.size
+        notifyItemChanged(mediaUris.size - 1)
+        mediaUris.forEach {
+            Log.e("jdm_tag", "${it.selectedNum} / ${it.id}")
+        }
+    }
+
+    fun getList(): MutableList<Gallery> {
+        return mediaUris
+    }
+
     inner class ViewHolder(val binding: ItemGalleryMediaBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Gallery, position: Int) {
@@ -57,16 +73,27 @@ class ImagePickAdapter(private val context: Context, private val onClickImageVie
                 if (item.selectedNum > 0) {
                     deleteSelectedItem(mediaUris[position], position)
                     toggleItemGalleryNumber(false, item)
+                }
+            }
+            binding.itemGalleryImg.setOnClickListener {
+                if (item.selectedNum > 0) {
+                    onClickImageView(item, getSelectedPosition(item))
                 } else {
                     addSelectedItem(mediaUris[position], position)
                     toggleItemGalleryNumber(true, item)
                 }
             }
-            binding.itemGalleryImg.setOnClickListener {
-                onClickImageView(item)
-            }
         }
-
+        fun getSelectedPosition(item: Gallery): Int {
+            var position = 0
+            for(i in 0 until viewModel.selectedGallery.size) {
+                if (viewModel.selectedGallery[i].id == item.id) {
+                    position = i
+                    break
+                }
+            }
+            return position
+        }
         fun toggleItemGalleryNumber(isSelected: Boolean, item: Gallery) {
             if (isSelected) {
                 binding.itemGalleryNumber.text = "${item.selectedNum}"
@@ -81,21 +108,22 @@ class ImagePickAdapter(private val context: Context, private val onClickImageVie
         }
 
         fun addSelectedItem(item: Gallery, position: Int) {
-            selectedList.add(item)
-            mediaUris[position].selectedNum = selectedList.size
+            viewModel.selectedGallery.add(item)
+            mediaUris[position].selectedNum = viewModel.selectedGallery.size
+            toggleItemGalleryNumber(true, item)
         }
 
         fun deleteSelectedItem(item: Gallery, position: Int) {
             var idx = 0
-            for (i in 0 until selectedList.size) {
-                if (item.id == selectedList[i].id) {
+            for (i in 0 until viewModel.selectedGallery.size) {
+                if (item.id == viewModel.selectedGallery[i].id) {
                     idx = i
                     break
                 }
             }
-            for (i in idx + 1 until selectedList.size) {
+            for (i in idx + 1 until viewModel.selectedGallery.size) {
                 for (j in 0 until mediaUris.size) {
-                    if (selectedList[i].id == mediaUris[j].id) {
+                    if (viewModel.selectedGallery[i].id == mediaUris[j].id) {
 
                         mediaUris[j].selectedNum = i
                         notifyItemChanged(j)
@@ -105,7 +133,7 @@ class ImagePickAdapter(private val context: Context, private val onClickImageVie
                 }
             }
             mediaUris[position].selectedNum = 0
-            selectedList.removeAt(idx)
+            viewModel.selectedGallery.removeAt(idx)
             notifyItemChanged(position)
 
 

@@ -1,24 +1,16 @@
 package com.jdm.trustme
 
 import android.Manifest
-import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
-import android.os.storage.StorageManager
-import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import com.jdm.trustme.base.BaseActivity
 import com.jdm.trustme.databinding.ActivityMainBinding
-import com.jdm.trustme.ui.CameraActivity
-import com.jdm.trustme.ui.ImagePickActivity
+import com.jdm.trustme.ui.write.WriteActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.function.BinaryOperator
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
@@ -62,6 +54,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initEvent() {
         with(binding) {
+            fab.setOnClickListener {
+                Intent(this@MainActivity, WriteActivity::class.java).also { startActivity(it) }
+            }
+            /*
             takePictureButton.setOnClickListener {
                 Intent(this@MainActivity, CameraActivity::class.java)
                     .run { startActivity(this) }
@@ -70,6 +66,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
                 step1Check(this@MainActivity)
             }
+
+             */
         }
     }
     private fun step1Check (context: Context) {
@@ -93,6 +91,5 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
     private fun goToImagePickActivity() {
-        Intent(this, ImagePickActivity::class.java).also { startActivity(it) }
     }
 }

@@ -13,7 +13,7 @@ class ProgressDialog(context: Context, message: String) {
     private var view: View = LayoutInflater.from(context).inflate(R.layout.layout_progressbar, null)
 
     init {
-        var builder = AlertDialog.Builder(context, R.style.Theme_MyExoSample_AlertDialog)
+        var builder = AlertDialog.Builder(context, R.style.Theme_TrustMe_AlertDialog)
         builder.setCancelable(false)
         builder.setView(view)       //AlertDialog의 화면을 설정
 

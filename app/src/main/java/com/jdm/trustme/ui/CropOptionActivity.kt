@@ -1,30 +1,18 @@
 package com.jdm.trustme.ui
 
-import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseActivity
-import com.jdm.trustme.const.BITMAP
-import com.jdm.trustme.const.GALLERY
 import com.jdm.trustme.const.PICTURE_URI
 import com.jdm.trustme.databinding.ActivityCropOptionBinding
+import com.jdm.trustme.ui.write.EditImageFragment
 import com.jdm.trustme.util.RotateTransformation
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -50,11 +50,7 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>() {
     }
 
     override fun initView() {
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
-        }
+        startCamera()
     }
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
@@ -187,24 +183,6 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>() {
 
         }
     }
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                startCamera()
-            } else {
-                Toast.makeText(this,
-                    R.string.permissions_not_granted_message,
-                    Toast.LENGTH_SHORT).show()
-                finish()
-            }
-        }
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -216,16 +194,5 @@ class CameraActivity : BaseActivity<ActivityCameraBinding>() {
     companion object {
         const val TAG = "CameraActivity"
         const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm"
-        const val REQUEST_CODE_PERMISSIONS = 10
-        val REQUIRED_PERMISSIONS =
-            mutableListOf (
-                CAMERA,
-                RECORD_AUDIO
-            ).apply {
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-                    add(WRITE_EXTERNAL_STORAGE)
-                }
-            }.toTypedArray()
-
     }
 }

@@ -1,5 +1,6 @@
 package com.jdm.trustme.model.entity
 
+import android.graphics.Bitmap
 import android.net.Uri
 
 data class Gallery(
@@ -9,5 +10,6 @@ data class Gallery(
     val type: String,
     val uri: Uri,
     val date: Long,
-    var selectedNum: Int = 0
+    var selectedNum: Int = 0,
+    var bitmap: Bitmap? = null
 )

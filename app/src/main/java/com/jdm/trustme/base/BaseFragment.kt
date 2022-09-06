@@ -47,6 +47,12 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         backButtonCallBack.remove()
         super.onDetach()
     }
+    /*
+    open fun backFragment() {
+        parentFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
+    }
+
+     */
     abstract fun initView()
     abstract fun initEvent()
     abstract fun subscribe()
