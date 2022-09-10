@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
@@ -74,6 +76,17 @@ class WriteFragment : BaseFragment<FragmentWriteBinding>() {
                     (requireActivity() as WriteActivity).requestStoragePermission()
                 }
             }
+            writeGoodsNameEt.addTextChangedListener {
+                viewModel.isAllowCompleteButton(it.toString(), writeEditText.text.toString())
+            }
+            writeEditText.addTextChangedListener {
+                viewModel.isAllowCompleteButton(writeGoodsNameEt.text.toString(), it.toString())
+            }
+            writeCompleteButton.setOnClickListener {
+                Log.e("jdm_tag","complete click")
+                viewModel.saveFood(writeGoodsNameEt.text.toString(), writeEditText.text.toString())
+                (requireActivity() as WriteActivity).backPressedFragment(WriteFragment.TAG, SelectStoreFragment.TAG)
+            }
         }
     }
     fun onClickCloseButton(item: Gallery, position: Int) {
@@ -84,6 +97,17 @@ class WriteFragment : BaseFragment<FragmentWriteBinding>() {
     }
 
     override fun subscribe() {
+        with(viewModel) {
+            completeButtonState.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.writeCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_ff252525))
+                    binding.writeCompleteButton.isEnabled = true
+                } else {
+                    binding.writeCompleteButton.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_ccd4d8))
+                    binding.writeCompleteButton.isEnabled = false
+                }
+            }
+        }
     }
 
     companion object {

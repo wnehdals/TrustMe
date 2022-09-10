@@ -19,6 +19,7 @@ import com.jdm.trustme.ui.write.CameraFragment
 import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.core.Single
 import java.io.File
+import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -89,7 +90,7 @@ internal class GalleryUtil {
                     }
                     query?.close()
                     if (!galleryList.isEmpty()) {
-
+                        galleryList.forEach { Log.e("getmedianame",it.name) }
                         emitter.onSuccess(galleryList)
                     } else {
                         val emptyList = mutableListOf<Gallery>()
@@ -102,10 +103,73 @@ internal class GalleryUtil {
             }
         }
 
-        fun saveBitmap(context: Context, bitmap: Bitmap): Single<Boolean> {
-            return Single.create {
-                val name = SimpleDateFormat(CameraFragment.FILENAME_FORMAT, Locale.KOREA).format(System.currentTimeMillis())
+        fun getMedia(context: Context, name: String): Gallery? {
+            var searchGallery: Gallery? = null
+            Log.e("getMdedia", name)
+            try {
 
+                val collecton = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                } else {
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                }
+
+                val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+
+                val projection = arrayOf(
+                    MediaStore.Images.Media._ID,
+                    MediaStore.Images.Media.DISPLAY_NAME,
+                    MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.SIZE,
+                    MediaStore.Images.Media.DATE_ADDED,
+                    MediaStore.Images.Media.MIME_TYPE
+                )
+                val selection = "${MediaStore.Images.Media.DISPLAY_NAME} = ?"
+                val selectionArgs = arrayOf("${name}.jpg")
+                val query = context.contentResolver.query(
+                    collecton,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    sortOrder
+                )
+
+                query?.use { cursor ->
+                    val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                    val displayNameColumn =
+                        cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                    val uriColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                    val sizeColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
+                    val dateAddedColumn =
+                        cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
+                    val mineTypeColumn =
+                        cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
+                    while (cursor.moveToNext()) {
+                        val id = cursor.getLong(idColumn)
+                        val name = cursor.getString(displayNameColumn)
+                        val uri = getMediaUri(id, cursor.getString(uriColumn))
+                        val size = cursor.getLong(sizeColumn)
+                        val date = cursor.getLong(dateAddedColumn)
+                        val type = cursor.getString(mineTypeColumn)
+                        searchGallery = Gallery(id, name, size, type, uri, date)
+                    }
+                }
+                query?.close()
+
+            } catch (exception: Exception) {
+
+            }
+            return searchGallery
+
+        }
+
+        fun saveBitmap(context: Context, bitmap: Bitmap): Single<Gallery> {
+            return Single.create {
+                val name = SimpleDateFormat(
+                    CameraFragment.FILENAME_FORMAT,
+                    Locale.KOREA
+                ).format(System.currentTimeMillis())
+                Log.e("saveMdedia", name)
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, "${name}.jpg")
                     put(MediaStore.MediaColumns.MIME_TYPE, "imgae/jpeg")
@@ -113,15 +177,38 @@ internal class GalleryUtil {
                     put(MediaStore.Images.Media.HEIGHT, bitmap.height)
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/TrustMe-Image")
-                    val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                    contentValues.put(
+                        MediaStore.Images.Media.RELATIVE_PATH,
+                        "Pictures/TrustMe-Image"
+                    )
+                    contentValues.put(MediaStore.Images.Media.IS_PENDING, 1)
+                    val collection =
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
                     val item = context.contentResolver.insert(collection, contentValues)!!
                     try {
+                        /*
+                        val img = context.contentResolver.openFileDescriptor(item, "w", null)
+                        val fos = FileOutputStream(img!!.fileDescriptor)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+                        fos.close()
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                        context.contentResolver.update(item, contentValues, null, null)
+                        */
                         val fos = context.contentResolver.openOutputStream(item)
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                         Objects.requireNonNull(fos)
-                        Log.e("jdm_tag","save")
-                        it.onSuccess(true)
+                        fos?.close()
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                        context.contentResolver.update(item, contentValues, null, null)
+
+                        var searchGallery = getMedia(context, name)
+                        if (searchGallery != null) {
+                            it.onSuccess(searchGallery)
+                        } else {
+                            it.onError(Exception("Not Found"))
+                        }
                     } catch (e: Exception) {
                         it.onError(e)
                     }
@@ -135,7 +222,17 @@ internal class GalleryUtil {
                         val fos = context.contentResolver.openOutputStream(item)
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
                         Objects.requireNonNull(fos)
-                        it.onSuccess(true)
+                        fos?.close()
+                        contentValues.clear()
+                        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
+                        context.contentResolver.update(item, contentValues, null, null)
+
+                        var searchGallery = getMedia(context, name)
+                        if (searchGallery != null) {
+                            it.onSuccess(searchGallery)
+                        } else {
+                            it.onError(Exception("Not Found"))
+                        }
                     } catch (e: Exception) {
                         it.onError(e)
                     }
@@ -143,16 +240,7 @@ internal class GalleryUtil {
             }
 
         }
-        fun uriToBitmap(context: Context, gallery: Gallery) {
-            Glide.with(context).asBitmap().load(gallery.uri).into(object : CustomTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    gallery.bitmap = resource
-                }
 
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
-        }
 
         private fun getMediaUri(id: Long, str: String): Uri =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

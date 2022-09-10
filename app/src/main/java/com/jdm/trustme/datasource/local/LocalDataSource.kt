@@ -1,5 +1,6 @@
 package com.jdm.trustme.datasource.local
 
+import com.jdm.trustme.model.entity.Food
 import com.jdm.trustme.model.entity.Store
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +9,7 @@ import javax.inject.Inject
 
 class LocalDataSource @Inject constructor(
     private val storeDao: StoreDao,
-    private val goodsDao: GoodsDao,
+    private val foodDao: FoodDao,
     private val ioDispatcher: CoroutineDispatcher
 ) {
     fun getAllStoreEntity(): Flow<List<Store>> {
@@ -16,5 +17,8 @@ class LocalDataSource @Inject constructor(
     }
     suspend fun insertStoreEntity(store: Store) {
         storeDao.insertStore(store)
+    }
+    suspend fun insertFoodEntity(food: Food) {
+        foodDao.insertFood(food)
     }
 }

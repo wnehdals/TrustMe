@@ -34,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/str_complete"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:gravity="center_vertical"
                 android:layout_marginEnd="16dp"
@@ -57,7 +58,7 @@
             android:layout_marginVertical="8dp"
             android:background="@null"
             android:maxLines="1"
-            android:hint="@string/str_please_input_goods_name"
+            android:hint="@string/str_please_input_food_name"
             app:layout_constraintTop_toBottomOf="@+id/write_divide_line_1"
             app:layout_constraintBottom_toTopOf="@+id/write_divide_line_2"/>
         <View

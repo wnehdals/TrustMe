@@ -1,6 +1,6 @@
 package com.jdm.trustme.di
 
-import com.jdm.trustme.datasource.local.GoodsDao
+import com.jdm.trustme.datasource.local.FoodDao
 import com.jdm.trustme.datasource.local.LocalDataSource
 import com.jdm.trustme.datasource.local.StoreDao
 import dagger.Module
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Provides
     @Singleton
-    fun provideLocalDataSource(storeDao: StoreDao, goodsDao: GoodsDao, @IoDispatcher ioDispatcher: CoroutineDispatcher): LocalDataSource {
+    fun provideLocalDataSource(storeDao: StoreDao, goodsDao: FoodDao, @IoDispatcher ioDispatcher: CoroutineDispatcher): LocalDataSource {
         return LocalDataSource(storeDao, goodsDao, ioDispatcher)
     }
 }

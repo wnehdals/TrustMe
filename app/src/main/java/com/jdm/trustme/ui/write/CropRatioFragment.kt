@@ -6,6 +6,9 @@ import androidx.fragment.app.activityViewModels
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentCropRatioBinding
+import com.jdm.trustme.util.GalleryUtil
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
     override val layoutId: Int
@@ -50,10 +53,18 @@ class CropRatioFragment : BaseFragment<FragmentCropRatioBinding>() {
             }
             cropRatioCompleteButton.setOnClickListener {
                 val img = cropRatioIv.croppedImage
-                viewModel.editSelectedGallery()
-                (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
-                (requireActivity() as WriteActivity).backPressedFragment(EditImageFragment.TAG, "")
-                (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
+                GalleryUtil.saveBitmap(requireContext(), img)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        viewModel.editSelectedGallery(it)
+                        (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
+                        (requireActivity() as WriteActivity).backPressedFragment(EditImageFragment.TAG, "")
+                        (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
+                    }, {
+
+                    })
+
 
             }
         }

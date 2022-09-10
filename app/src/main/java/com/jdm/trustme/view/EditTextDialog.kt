@@ -1,4 +1,4 @@
-package com.jdm.trustme.util
+package com.jdm.trustme.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

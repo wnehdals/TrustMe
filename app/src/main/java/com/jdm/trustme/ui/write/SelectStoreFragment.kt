@@ -7,7 +7,7 @@ import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentSelectStoreBinding
 import com.jdm.trustme.model.entity.Store
-import com.jdm.trustme.util.EditTextDialog
+import com.jdm.trustme.view.EditTextDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +28,7 @@ class SelectStoreFragment : BaseFragment<FragmentSelectStoreBinding>() {
         backButtonCallBack = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 (requireActivity() as WriteActivity).backPressedFragment(SelectStoreFragment.TAG)
+                viewModel.selectedGallery.clear()
                 requireActivity().finish()
             }
         }
@@ -38,6 +39,7 @@ class SelectStoreFragment : BaseFragment<FragmentSelectStoreBinding>() {
         with(binding) {
             selectStoreBackButton.setOnClickListener {
                 (requireActivity() as WriteActivity).backPressedFragment(SelectStoreFragment.TAG)
+                viewModel.selectedGallery.clear()
                 requireActivity().finish()
             }
         }
@@ -50,7 +52,7 @@ class SelectStoreFragment : BaseFragment<FragmentSelectStoreBinding>() {
         }
     }
     private fun onClickStoreItem(store: Store) {
-        if(store.id == -1) {
+        if(store.id == -1L) {
             val editTextDialog = EditTextDialog(title = getString(R.string.str_please_input_store_name), positiveText = getString(R.string.str_input),
                 positiveClick = { dialog, name ->
                     val newStore = Store(id = 0, name = name, img = "")

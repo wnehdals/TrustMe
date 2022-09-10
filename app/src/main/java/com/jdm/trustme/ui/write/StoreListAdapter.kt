@@ -37,7 +37,7 @@ class StoreListAdapter: ListAdapter<Store, StoreListAdapter.ViewHolder>(storeDif
             }
 
             override fun areContentsTheSame(oldItem: Store, newItem: Store): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem == newItem
             }
         }
     }

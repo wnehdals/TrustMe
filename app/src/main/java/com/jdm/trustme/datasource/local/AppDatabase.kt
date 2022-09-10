@@ -3,20 +3,21 @@ package com.jdm.trustme.datasource.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.jdm.trustme.model.entity.Goods
+import com.jdm.trustme.model.entity.Food
 import com.jdm.trustme.model.entity.Store
-import com.jdm.trustme.util.GoodsListConverter
+import com.jdm.trustme.util.FoodListConverter
 import com.jdm.trustme.util.StoreListConverter
+import com.jdm.trustme.util.LongListConverter
 
 @Database(
-    entities = [Store::class, Goods::class], version = 1
+    entities = [Store::class, Food::class], version = 1
 )
 @TypeConverters(
     value = [
-        (StoreListConverter::class), (GoodsListConverter::class)
+        (StoreListConverter::class), (FoodListConverter::class), (LongListConverter::class)
     ]
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun storeDao(): StoreDao
-    abstract fun goodsDao(): GoodsDao
+    abstract fun goodsDao(): FoodDao
 }

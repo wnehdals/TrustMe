@@ -19,8 +19,8 @@
     <string name="str_cancel">취소</string>
     <string name="str_input">입력하기</string>
     <string name="str_please_input_store_name">상점명을 입력해주세요</string>
-    <string name="str_please_input_goods_name">상품명을 입력해주세요</string>
-    <string name="str_please_input_review">상품에 대한 리뷰를 입력해주세요</string>
+    <string name="str_please_input_food_name">음식명을 입력해주세요</string>
+    <string name="str_please_input_review">음식에 대한 리뷰를 입력해주세요</string>
     <string name="str_check_img_edit_message">편집한 내용이 사려져요. 그래도 나가시겠어요?</string>
     <string name="str_left">나가기</string>
     <!-- TODO: Remove or change this placeholder text -->

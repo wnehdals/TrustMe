@@ -72,15 +72,13 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
                 //(requireActivity() as WriteActivity).backPressedFragment(EditImageFragment.TAG, ImagePickFragment.TAG)
             }
             cropOptionCompleteButton.setOnClickListener {
-                viewModel.editSelectedGallery()
                 GalleryUtil.saveBitmap(requireContext(), viewModel.bitmap!!)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
-                        if (it) {
-                            (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
-                            (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
-                        }
+                        viewModel.editSelectedGallery(it)
+                        (requireActivity() as WriteActivity).backPressedFragment(TAG, "")
+                        (requireActivity() as WriteActivity).backPressedFragment(ImagePickFragment.TAG, WriteFragment.TAG)
                     }, {
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     })

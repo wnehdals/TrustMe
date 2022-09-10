@@ -31,4 +31,17 @@
     <color name="color_f1f3f5">#fff1f3f5</color>
     <color name="color_acb5bd">#ffacb5bd</color>
     <color name="color_ccd4d8">#ffccd4d8</color>
+
+    <!-- random color -->
+    <color name="color_7ab16f">#ff7ab16f</color>
+    <color name="color_4447c4">#ff4447c4</color>
+    <color name="color_0be14c">#ff0be14c</color>
+    <color name="color_575571">#ff575571</color>
+    <color name="color_c350a3">#ffc350a3</color>
+    <color name="color_e44a63">#ffe44a63</color>
+    <color name="color_a4d8fa">#ffa4d8fa</color>
+    <color name="color_fbbde4">#fffbbde4</color>
+    <color name="color_96b188">#ff96b188</color>
+    <color name="color_3c7ede">#ff3c7ede</color>
+
 </resources>

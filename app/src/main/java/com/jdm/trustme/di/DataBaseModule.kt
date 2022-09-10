@@ -3,7 +3,7 @@ package com.jdm.trustme.di
 import android.content.Context
 import androidx.room.Room
 import com.jdm.trustme.datasource.local.AppDatabase
-import com.jdm.trustme.datasource.local.GoodsDao
+import com.jdm.trustme.datasource.local.FoodDao
 import com.jdm.trustme.datasource.local.StoreDao
 import dagger.Module
 import dagger.Provides
@@ -30,7 +30,7 @@ object DataBaseModule {
 
     @Provides
     @Singleton
-    fun provideGoodsDao(appAppDatabase: AppDatabase): GoodsDao {
+    fun provideGoodsDao(appAppDatabase: AppDatabase): FoodDao {
         return appAppDatabase.goodsDao()
     }
 }
