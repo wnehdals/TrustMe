@@ -19,4 +19,5 @@ interface FoodDao {
 
     @Query("SELECT * FROM FOOD WHERE storeId = :storeId_")
     fun selectStoreFood(storeId_: Int): Flow<List<Food>>
+
 }

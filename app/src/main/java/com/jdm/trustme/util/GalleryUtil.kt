@@ -4,22 +4,16 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Environment.DIRECTORY_PICTURES
 import android.provider.MediaStore
 import android.util.Log
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
-import com.jdm.trustme.model.entity.Gallery
+import com.jdm.trustme.model.response.Gallery
 import com.jdm.trustme.ui.write.CameraFragment
-import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.core.Single
 import java.io.File
-import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +28,6 @@ internal class GalleryUtil {
 
         internal fun getMedia(
             context: Context,
-            mediaType: MediaType
         ): Single<MutableList<Gallery>> {
             return Single.create { emitter ->
                 try {
@@ -103,7 +96,7 @@ internal class GalleryUtil {
             }
         }
 
-        fun getMedia(context: Context, name: String): Gallery? {
+        internal fun getMedia(context: Context, name: String): Gallery? {
             var searchGallery: Gallery? = null
             Log.e("getMdedia", name)
             try {
@@ -162,6 +155,61 @@ internal class GalleryUtil {
             return searchGallery
 
         }
+
+        internal fun getUriList(context: Context, idList: List<Long>): MutableList<Uri> {
+            var searchResult = mutableListOf<Uri>()
+            for(i in 0 until idList.size) {
+                try {
+                    val selectionArgs = arrayOf(idList[i].toString())
+                    val collecton = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                    } else {
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                    }
+
+                    val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
+
+                    val projection = arrayOf(
+                        MediaStore.Images.Media._ID,
+                        MediaStore.MediaColumns.DATA,
+                        MediaStore.Images.Media.DATE_ADDED,
+                        MediaStore.Images.Media.MIME_TYPE
+                    )
+                    val selection = "${MediaStore.Images.Media._ID} = ?"
+                    val query = context.contentResolver.query(
+                        collecton,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        sortOrder
+                    )
+
+                    query?.use { cursor ->
+                        val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                        val uriColumn = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                        val dateAddedColumn =
+                            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED)
+                        val mineTypeColumn =
+                            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
+                        while (cursor.moveToNext()) {
+                            val id = cursor.getLong(idColumn)
+                            val uri = getMediaUri(id, cursor.getString(uriColumn))
+                            val date = cursor.getLong(dateAddedColumn)
+                            val type = cursor.getString(mineTypeColumn)
+                            searchResult.add(uri)
+                        }
+                    }
+                    query?.close()
+
+                } catch (exception: Exception) {
+
+                }
+            }
+            return searchResult
+
+        }
+
+
 
         fun saveBitmap(context: Context, bitmap: Bitmap): Single<Gallery> {
             return Single.create {

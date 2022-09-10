@@ -12,10 +12,9 @@ import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentImagePickBinding
-import com.jdm.trustme.model.entity.Gallery
+import com.jdm.trustme.model.response.Gallery
 import com.jdm.trustme.ui.write.adapter.ImagePickAdapter
 import com.jdm.trustme.util.GalleryUtil
-import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -74,7 +73,7 @@ class ImagePickFragment : BaseFragment<FragmentImagePickBinding>() {
         uriToBitmap(item.uri)
     }
     private fun getImageList() {
-        GalleryUtil.getMedia(requireContext(), MediaType.IMAGE)
+        GalleryUtil.getMedia(requireContext())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ newList ->

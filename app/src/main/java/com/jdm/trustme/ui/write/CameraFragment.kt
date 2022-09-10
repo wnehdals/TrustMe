@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -18,7 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentCameraBinding
-import com.jdm.trustme.model.entity.Gallery
+import com.jdm.trustme.model.response.Gallery
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*

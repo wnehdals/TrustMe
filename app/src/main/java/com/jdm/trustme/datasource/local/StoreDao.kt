@@ -16,5 +16,5 @@ interface StoreDao {
     fun selectAllStore(): Flow<List<Store>>
 
     @Query("SELECT * FROM STORE WHERE id = :id_")
-    fun selectStore(id_: Int): Flow<Store>
+    suspend fun selectStore(id_: Long): Store
 }

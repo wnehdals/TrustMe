@@ -9,7 +9,7 @@ import com.jdm.trustme.model.entity.Store
 class LongListConverter {
     @TypeConverter
     fun fromString(value: String): List<Long> {
-        val listType = object : TypeToken<List<Uri>>() {}.type
+        val listType = object : TypeToken<List<Long>>() {}.type
         return Gson().fromJson<List<Long>>(value, listType)
     }
     @TypeConverter

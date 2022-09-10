@@ -7,6 +7,7 @@ import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentSelectStoreBinding
 import com.jdm.trustme.model.entity.Store
+import com.jdm.trustme.util.ColorUtil
 import com.jdm.trustme.view.EditTextDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +56,7 @@ class SelectStoreFragment : BaseFragment<FragmentSelectStoreBinding>() {
         if(store.id == -1L) {
             val editTextDialog = EditTextDialog(title = getString(R.string.str_please_input_store_name), positiveText = getString(R.string.str_input),
                 positiveClick = { dialog, name ->
-                    val newStore = Store(id = 0, name = name, img = "")
+                    val newStore = Store(id = 0, name = name, img = ColorUtil.getRandomIdx())
                     viewModel.insertStore(newStore)
                     dialog.dismiss()
 

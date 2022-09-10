@@ -3,12 +3,11 @@ package com.jdm.trustme.ui.write
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jdm.trustme.model.entity.Gallery
+import com.jdm.trustme.model.response.Gallery
 import com.jdm.trustme.model.entity.Store
 import com.jdm.trustme.repository.StoreRepository
 import com.jdm.trustme.util.Type
@@ -27,7 +26,7 @@ class WriteViewModel@Inject constructor(private val storeRepository: StoreReposi
     private val _completeButtonState = MutableLiveData<Boolean>()
     val completeButtonState: LiveData<Boolean> get() = _completeButtonState
 
-    var selectStore = Store(-1L,"", "")
+    var selectStore = Store(-1L,"", 0)
     var bitmap: Bitmap? = null
     var selectedGallery = LinkedList<Gallery>()
     var selectedGalleryPosition = 0

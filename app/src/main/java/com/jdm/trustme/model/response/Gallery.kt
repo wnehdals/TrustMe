@@ -1,4 +1,4 @@
-package com.jdm.trustme.model.entity
+package com.jdm.trustme.model.response
 
 import android.graphics.Bitmap
 import android.net.Uri

@@ -19,7 +19,6 @@ import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentEditImageBinding
 import com.jdm.trustme.util.GalleryUtil
 import dagger.hilt.android.AndroidEntryPoint
-import gun0912.tedimagepicker.builder.type.MediaType
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -100,14 +99,6 @@ class EditImageFragment : BaseFragment<FragmentEditImageBinding>() {
                 (requireActivity() as WriteActivity).backPressedFragment(TAG, ImagePickFragment.TAG)
             }
         }
-    }
-    fun getMedia() {
-        GalleryUtil.getMedia(requireContext(), MediaType.IMAGE)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-               Log.e("jdm_tag",it.size.toString())
-            },{})
     }
     fun rotateImg() {
         angle+=90f

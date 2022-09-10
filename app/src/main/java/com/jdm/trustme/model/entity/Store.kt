@@ -10,5 +10,5 @@ data class Store(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
     var name: String,
-    var img: String
+    var img: Int
 )

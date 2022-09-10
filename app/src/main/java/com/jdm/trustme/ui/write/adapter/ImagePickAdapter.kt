@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jdm.trustme.R
 import com.jdm.trustme.databinding.ItemGalleryMediaBinding
-import com.jdm.trustme.model.entity.Gallery
+import com.jdm.trustme.model.response.Gallery
 import com.jdm.trustme.ui.write.WriteViewModel
 
 class ImagePickAdapter(

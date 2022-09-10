@@ -4,21 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.jdm.trustme.databinding.ItemSelectedGalleryBinding
 import com.jdm.trustme.databinding.ItemStoreCircleBinding
-import com.jdm.trustme.model.entity.Gallery
 import com.jdm.trustme.model.entity.Store
 import com.jdm.trustme.util.ColorUtil
-import java.util.*
 
 class SelectedStoreAdapter(private val context: Context, private val onClickStore: (Store, Int) -> Unit = { selectedItem, position -> }): RecyclerView.Adapter<SelectedStoreAdapter.ViewHolder>() {
     val storeList = mutableListOf<Store>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = ItemStoreCircleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(ItemStoreCircleBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
@@ -39,7 +34,7 @@ class SelectedStoreAdapter(private val context: Context, private val onClickStor
     }
     inner class ViewHolder(val binding: ItemStoreCircleBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Store, position: Int) {
-            binding.storeCircleIv.setImageDrawable(ContextCompat.getDrawable(context, ColorUtil.getRandonCircle()))
+            binding.storeCircleIv.setImageDrawable(ContextCompat.getDrawable(context, ColorUtil.getCircleDrawable(item.img)))
             binding.storeCircleTv.text = item.name
         }
     }

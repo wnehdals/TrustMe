@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_rect_radius_16_ffffff">
+        android:background="@drawable/bg_rect_ffffff_radius_16">
         <TextView
             android:id="@+id/edit_text_dialog_title"
             android:layout_width="wrap_content"

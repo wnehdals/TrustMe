@@ -6,6 +6,7 @@ import androidx.lifecycle.asLiveData
 import com.jdm.trustme.datasource.local.LocalDataSource
 import com.jdm.trustme.model.entity.Food
 import com.jdm.trustme.model.entity.Store
+import com.jdm.trustme.model.response.Feed
 import com.jdm.trustme.util.Type
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -15,7 +16,7 @@ class StoreRepositoryImpl @Inject constructor(private val localDataSource: Local
         return localDataSource.getAllStoreEntity().flatMapLatest {
             val storeList = it.toMutableList()
             if (type == Type.WRITE)
-                storeList.add(0, Store(-1,"새로운 상점 등록하기", ""))
+                storeList.add(0, Store(-1,"새로운 상점 등록하기", 0))
             flow {
                 emit(storeList)
             }
@@ -43,5 +44,17 @@ class StoreRepositoryImpl @Inject constructor(private val localDataSource: Local
                 imgId = imgList
             )
         )
+    }
+
+    override fun getFeedList(): Flow<MutableList<Feed>> {
+        return localDataSource.getAllFoodEntity()
+            .flatMapLatest {
+                val feedList = mutableListOf<Feed>()
+                it.forEach {
+                    val store = localDataSource.getStoreEntity(it.storeId)
+                    feedList.add(Feed(it, store))
+                }
+                flow { emit(feedList) }
+            }
     }
 }
