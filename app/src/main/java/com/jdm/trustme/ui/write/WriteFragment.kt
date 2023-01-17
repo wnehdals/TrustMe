@@ -12,7 +12,7 @@ import androidx.fragment.app.activityViewModels
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentWriteBinding
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Gallery
 import com.jdm.trustme.ui.write.adapter.SelectedImageAdapter
 
 class WriteFragment : BaseFragment<FragmentWriteBinding>() {

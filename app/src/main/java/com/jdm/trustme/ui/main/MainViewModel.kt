@@ -1,12 +1,11 @@
 package com.jdm.trustme.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jdm.trustme.model.entity.Store
-import com.jdm.trustme.model.response.Feed
+import com.jdm.data.model.entity.Store
+import com.jdm.data.model.entity.response.Feed
 import com.jdm.trustme.repository.StoreRepository
 import com.jdm.trustme.util.Type
 import dagger.hilt.android.lifecycle.HiltViewModel

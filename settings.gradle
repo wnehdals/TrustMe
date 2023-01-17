@@ -19,3 +19,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TrustMe"
 include ':app'
+include ':domain'
+include ':data'

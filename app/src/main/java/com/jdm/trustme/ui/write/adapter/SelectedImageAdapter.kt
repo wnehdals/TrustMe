@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jdm.trustme.databinding.ItemSelectedGalleryBinding
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Gallery
 import java.util.*
 
 class SelectedImageAdapter(private val context: Context, private val onClickClose: (Gallery, Int) -> Unit = { selectedItem, position -> }): RecyclerView.Adapter<SelectedImageAdapter.ViewHolder>() {

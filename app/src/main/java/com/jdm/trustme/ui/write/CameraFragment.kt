@@ -17,7 +17,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentCameraBinding
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Gallery
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*

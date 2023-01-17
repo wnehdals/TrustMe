@@ -1,8 +1,8 @@
 package com.jdm.trustme.di
 
-import com.jdm.trustme.datasource.local.FoodDao
-import com.jdm.trustme.datasource.local.LocalDataSource
-import com.jdm.trustme.datasource.local.StoreDao
+import com.jdm.data.local.FoodDao
+import com.jdm.data.local.LocalDataSource
+import com.jdm.data.local.StoreDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

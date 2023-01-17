@@ -12,7 +12,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentImagePickBinding
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Gallery
 import com.jdm.trustme.ui.write.adapter.ImagePickAdapter
 import com.jdm.trustme.util.GalleryUtil
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

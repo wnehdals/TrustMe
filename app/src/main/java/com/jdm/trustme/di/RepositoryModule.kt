@@ -1,6 +1,6 @@
 package com.jdm.trustme.di
 
-import com.jdm.trustme.datasource.local.LocalDataSource
+import com.jdm.data.local.LocalDataSource
 import com.jdm.trustme.repository.StoreRepository
 import com.jdm.trustme.repository.StoreRepositoryImpl
 import dagger.Module

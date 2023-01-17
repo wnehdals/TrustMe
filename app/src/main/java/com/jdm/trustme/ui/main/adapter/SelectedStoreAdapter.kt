@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.jdm.trustme.databinding.ItemStoreCircleBinding
-import com.jdm.trustme.model.entity.Store
+import com.jdm.data.model.entity.Store
 import com.jdm.trustme.util.ColorUtil
 
 class SelectedStoreAdapter(private val context: Context, private val onClickStore: (Store, Int) -> Unit = { selectedItem, position -> }): RecyclerView.Adapter<SelectedStoreAdapter.ViewHolder>() {

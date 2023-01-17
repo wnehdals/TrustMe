@@ -4,14 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jdm.trustme.databinding.ItemFeedImageBinding
-import com.jdm.trustme.databinding.ItemSelectedGalleryBinding
-import com.jdm.trustme.model.entity.Food
-import com.jdm.trustme.model.response.Gallery
-import java.util.*
 
 class FeedImageAdapter(private val context: Context) :
     RecyclerView.Adapter<FeedImageAdapter.ViewHolder>() {

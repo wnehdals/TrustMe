@@ -1,8 +1,7 @@
 package com.jdm.trustme.repository
 
-import android.net.Uri
-import com.jdm.trustme.model.entity.Store
-import com.jdm.trustme.model.response.Feed
+import com.jdm.data.model.entity.Store
+import com.jdm.data.model.entity.response.Feed
 import com.jdm.trustme.util.Type
 import kotlinx.coroutines.flow.Flow
 

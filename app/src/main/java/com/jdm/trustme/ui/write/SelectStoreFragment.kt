@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.jdm.trustme.R
 import com.jdm.trustme.base.BaseFragment
 import com.jdm.trustme.databinding.FragmentSelectStoreBinding
-import com.jdm.trustme.model.entity.Store
+import com.jdm.data.model.entity.Store
 import com.jdm.trustme.util.ColorUtil
 import com.jdm.trustme.view.EditTextDialog
 import dagger.hilt.android.AndroidEntryPoint

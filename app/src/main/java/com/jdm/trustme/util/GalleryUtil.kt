@@ -10,7 +10,7 @@ import android.os.Environment
 import android.os.Environment.DIRECTORY_PICTURES
 import android.provider.MediaStore
 import android.util.Log
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Gallery
 import com.jdm.trustme.ui.write.CameraFragment
 import io.reactivex.rxjava3.core.Single
 import java.io.File

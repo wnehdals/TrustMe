@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="primaryColor">#484354</color>
+    <color name="primaryLightColor">#746e80</color>
+    <color name="primaryDarkColor">#201c2b</color>
+    <color name="secondaryColor">#ffc0a5</color>
+    <color name="secondaryLightColor">#fff3d6</color>
+    <color name="secondaryDarkColor">#ca9076</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#000000</color>
+    <color name="darkGray">#121212</color>
+
+    <color name="blue_background_color">#C5DCFA</color>
+    <color name="blue_prim_text_color">#0A3977</color>
+    <color name="blue_sub_text_color">#5096F1</color>
+    <color name="color_8a000000">#8a000000</color>
+    <color name="color_defafafa">#defafafa</color>
+    <color name="color_33252525">#33252525</color>
+    <color name="color_ffffff">#FFFFFF</color>
+    <color name="color_ff252525">#FF252525</color>
+    <color name="color_6728ff">#ff6728ff</color>
+    <color name="color_8768ff">#ff8768ff</color>
+    <color name="color_f1f3f5">#fff1f3f5</color>
+    <color name="color_acb5bd">#ffacb5bd</color>
+    <color name="color_ccd4d8">#ffccd4d8</color>
+    <color name="color_858f9c">#ff858f9c</color>
+    <color name="color_4a5561">#ff4a5561</color>
+
+    <!-- random color -->
+    <color name="color_7ab16f">#ff7ab16f</color>
+    <color name="color_4447c4">#ff4447c4</color>
+    <color name="color_0be14c">#ff0be14c</color>
+    <color name="color_575571">#ff575571</color>
+    <color name="color_c350a3">#ffc350a3</color>
+    <color name="color_e44a63">#ffe44a63</color>
+    <color name="color_a4d8fa">#ffa4d8fa</color>
+    <color name="color_fbbde4">#fffbbde4</color>
+    <color name="color_96b188">#ff96b188</color>
+    <color name="color_3c7ede">#ff3c7ede</color>
+
+</resources>

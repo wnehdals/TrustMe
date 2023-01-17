@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jdm.trustme.databinding.ItemStoreBinding
-import com.jdm.trustme.model.entity.Store
+import com.jdm.data.model.entity.Store
 
 class StoreListAdapter: ListAdapter<Store, StoreListAdapter.ViewHolder>(storeDifUtil) {
     var onClick: (Store) -> Unit = {}

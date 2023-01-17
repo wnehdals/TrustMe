@@ -8,13 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.jdm.trustme.databinding.ItemFeedBinding
-import com.jdm.trustme.model.entity.Food
-import com.jdm.trustme.model.entity.Store
-import com.jdm.trustme.model.response.Feed
-import com.jdm.trustme.model.response.Gallery
+import com.jdm.data.model.entity.response.Feed
 import com.jdm.trustme.util.ColorUtil
 import com.jdm.trustme.util.GalleryUtil
-import java.util.*
 
 class FeedAdapter(private val context: Context, private val onClickFood: (Feed, Int) -> Unit = { selectedItem, position -> }): RecyclerView.Adapter<FeedAdapter.ViewHolder>() {
     val feedList = mutableListOf<Feed>()
